@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "engines": {
+    "node": "14.17.6"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env MONGO_PASSWORD=Allmightypush  MONGO_USER=chetu MONGO_DATABASE=shop STRIPE_KEY=sk_test_51K2GnlSDbvqcsMyVwPCOck1eoj9Q249DRuSLIqyuBnFehZJ943MeoQuwVYlTliPdV1FVvBYe2exw0ENWTRWwTVlU00E3Ta3FSM node app.js",
