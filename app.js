@@ -1,5 +1,5 @@
 const path = require('path');
-
+const fs = require('fs');
 const express = require('express');
 //const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -8,16 +8,16 @@ const MongoDbStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
-
+const helmet = require('helmet');
+const compression = require('compression');
 const errorController = require('./controllers/error');
+const morgan = require('morgan');
 
 const User = require('./models/user');
 
 const app = express();
 
-const MONGODB_URI =
-  'mongodb+srv://chetu:Allmightypush@cluster0.tfz9s.mongodb.net/shop?retryWrites=true&w=majority';
-
+const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.tfz9s.mongodb.net/${process.env.MONGO_DATABASE}?retryWrites=true&w=majority`;
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'images');
@@ -50,6 +50,17 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
+
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, 'access.log'),
+  {
+    flags: 'a',
+  }
+);
+
+app.use(helmet());
+app.use(compression());
+app.use(morgan('combined', { stream: accessLogStream }));
 
 //helps to parse incoming data
 app.use(express.urlencoded({ extended: false }));
@@ -133,6 +144,6 @@ mongoose
         user.save();
       }
     }); */
-    app.listen(8080);
+    app.listen(process.env.PORT || 8080);
   })
   .catch(err => console.log(err));

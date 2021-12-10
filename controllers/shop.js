@@ -1,10 +1,7 @@
 const Product = require('../models/product');
 const Order = require('../models/orders');
 
-//keep it private
-const stripe = require('stripe')(
-  'sk_test_51K2GnlSDbvqcsMyVwPCOck1eoj9Q249DRuSLIqyuBnFehZJ943MeoQuwVYlTliPdV1FVvBYe2exw0ENWTRWwTVlU00E3Ta3FSM'
-);
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 const fs = require('fs');
 const path = require('path');
