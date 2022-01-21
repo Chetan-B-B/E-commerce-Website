@@ -333,7 +333,7 @@ exports.getInvoice = (req, res, next) => {
       });
 
       pdfDoc.end();
-      //Logic to download a file
+      //Logic to download a fil
       //The following logic is valid fr small files..for bigger files we need to use streaming files
       /* fs.readFile(invoicePath, (err, data) => {
         if (err) {

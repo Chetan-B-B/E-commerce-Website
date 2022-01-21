@@ -58,7 +58,19 @@ const accessLogStream = fs.createWriteStream(
   }
 );
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        connectSrc: ["'self'", 'https://js.stripe.com'],
+        scriptSrc: ["'self'", "'unsafe-inline'", 'https://js.stripe.com'],
+        frameSrc: ["'self'", 'https://js.stripe.com'],
+        scriptSrcAttr: ["'unsafe-inline'"],
+      },
+    },
+  })
+);
 app.use(compression());
 app.use(morgan('combined', { stream: accessLogStream }));
 
